@@ -1,6 +1,16 @@
 /*! Light8.js Copyright 2012, zneo99 (Thuong Dinh Hoang) */
 
+/**
+ * @name light8
+ * @namespace
+ */
 var light8 = light8 || { version: "0.1.0" };
+
+/**
+ * @name light8.util
+ * @namespace
+ */
+light8.util = {};
 
 if (typeof exports != 'undefined') {
     exports.light8 = light8;

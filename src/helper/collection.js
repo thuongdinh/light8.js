@@ -29,10 +29,27 @@
         collection.splice(index, 1);
     }
 
+    /**
+     * Wipe a collection (array) to avoid Garbage Collection slow
+     * @memberOf light8.util.collection
+     * @method wipe
+     * @param {Array} collection The collection need to be wiped
+     */
+    function wipe(collection) {
+        if (!collection) {
+            return;
+        }
+
+        // clear all item of collection and avoid Garbage Collection slow
+        // it will effective than call collection = []
+        collection.length = 0;
+    }
+
     /** @namespace light8.util.collection */
     light8.util.collection = {
         size: size,
-        removeByIndex: removeByIndex
+        removeByIndex: removeByIndex,
+        wipe: wipe
     };
   
 })();

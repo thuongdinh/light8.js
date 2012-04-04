@@ -2,7 +2,8 @@
 
     "use strict";
 
-    var collectionUtil = light8.util.collection;
+    var collectionUtil = light8.util.collection,
+        objectUtil = light8.util.object;
 
     if (light8.Event) {
         return;
@@ -60,7 +61,10 @@
          * @param {String} eventName Event's Name
          */
         clean: function (eventName) {
-            delete this._eventsContainer[eventName];
+            if (this._eventsContainer[eventName]) {
+                // clear the collection
+                collectionUtil.wipe(this._eventsContainer[eventName]);
+            }
         },
 
         /**
@@ -68,7 +72,7 @@
          * @method reset
          */
         reset: function () {
-            this._eventsContainer = {};
+            objectUtil.wipe(this._eventsContainer);
         },
 
         /**
@@ -79,12 +83,13 @@
          */
         trigger: function (eventName) {
             var args = arguments,
-                self = this;
+                self = this,
+                func = function (container, index) {
+                    container[index].apply(self, Array.prototype.slice.call(args, 1));
+                };
 
             // with each func in event container, apply it with arguments pass to trigger function
-            this._doEachEvent(eventName, function (container, index) {
-                container[index].apply(self, Array.prototype.slice.call(args, 1));
-            });
+            this._doEachEvent(eventName, func);
         },
 
         /**
@@ -99,7 +104,7 @@
             if (eventContainer) {
                 eventLength = collectionUtil.size(eventContainer);
 
-                for (var i = eventLength; i >=0; i--) {
+                for (var i = eventLength-1; i >=0; i--) {
                     // call always fast than apply
                     func.call(this, eventContainer, i);
                 }
