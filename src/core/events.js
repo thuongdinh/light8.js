@@ -27,9 +27,9 @@
          * Bind a function to an event
          * @method bind
          * @param {String} eventName Event's Name
-         * @param {Function} func Function do event action
+         * @param {Function} callback Function do event action
          */
-        bind: function (eventName, func) {
+        bind: function (eventName, callback) {
             var eventContainer = this._eventsContainer[eventName];
 
             // initialize an event container if not exist
@@ -38,18 +38,18 @@
             }
 
             // add event to event container
-            eventContainer.push(func);
+            eventContainer.push(callback);
         },
 
         /**
          * Unbind a function out of an event
          * @method unbind
          * @param {String} eventName Event's Name
-         * @param {Function} func Function do event action
+         * @param {Function} callback Function do event action
          */
-        unbind: function (eventName, func) {
+        unbind: function (eventName, callback) {
             this._doEachEvent(eventName, function (container, index) {
-                if (container[index] === func) {
+                if (container[index] === callback) {
                     collectionUtil.removeByIndex(container, index); // remove function out of a event
                 }
             });
